@@ -11,7 +11,7 @@ public class Test extends JFrame{
 
 	MojKomponent komponent;
 	Siec siec;
-	
+	private final simplePaintPanel paintPanel = new simplePaintPanel();
 	public class MojKomponent extends JComponent{
 
 		@Override
@@ -43,6 +43,7 @@ public class Test extends JFrame{
 		Dimension d=kit.getScreenSize();
 		setBounds(d.width/4,d.height/4,d.width/2,d.height/2);
 		add(komponent=new MojKomponent());
+		add(paintPanel);
 		/*
 		 //1 warstwa 1 neuron
 		int []tab=new int [1];
