@@ -1,17 +1,16 @@
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.Graphics;
-import java.awt.Toolkit;
+import java.awt.*;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 
 public class Test extends JFrame{
 
 	MojKomponent komponent;
 	Siec siec;
-	private final simplePaintPanel paintPanel = new simplePaintPanel();
+	DrawArea drawingArea = new DrawArea();
+
 	public class MojKomponent extends JComponent{
 
 		@Override
@@ -39,11 +38,37 @@ public class Test extends JFrame{
 	public Test(String string) {
 		super(string);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setLayout(new BorderLayout());
 		Toolkit kit=Toolkit.getDefaultToolkit();
 		Dimension d=kit.getScreenSize();
 		setBounds(d.width/4,d.height/4,d.width/2,d.height/2);
-		add(komponent=new MojKomponent());
-		add(paintPanel);
+		JSlider sliderSlices = new JSlider(JSlider.HORIZONTAL, 8,64, 8);
+
+
+		JPanel panelRight = new JPanel();
+		JPanel panelLeft = new JPanel(new BorderLayout());
+		panelLeft.add(drawingArea, BorderLayout.CENTER);
+		panelLeft.add(sliderSlices, BorderLayout.SOUTH);
+
+		JButton btnTeach = new JButton("Teach");
+		JButton btnSave = new JButton("Save");
+		JButton btnEdit = new JButton("Edit");
+		JButton btnLoad = new JButton("Load");
+
+		add(panelRight, BorderLayout.EAST);
+		add(panelLeft, BorderLayout.CENTER);
+		panelRight.setLayout(new BoxLayout(panelRight, BoxLayout.LINE_AXIS));
+		panelRight.add(btnTeach);
+		panelRight.add(btnLoad);
+		panelRight.add(btnEdit);
+		panelRight.add(btnSave);
+		sliderSlices.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				JSlider source = (JSlider) e.getSource();
+				int slices = source.getValue();
+			}
+		});
 		/*
 		 //1 warstwa 1 neuron
 		int []tab=new int [1];
