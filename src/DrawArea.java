@@ -2,7 +2,11 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.image.RenderedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 
 /**
@@ -66,9 +70,31 @@ public class DrawArea extends JComponent {
 
     // now we create exposed methods
     public void clear() {
+        image = createImage(300, 300);
+        g2 = (Graphics2D) image.getGraphics();
+        // enable antialiasing
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setPaint(Color.white);
         // draw white on entire draw area to clear
         g2.fillRect(0, 0, 300, 300);
+        g2.setPaint(Color.black);
+        repaint();
+    }
+
+    public void save() throws IOException {
+        ImageIO.write((RenderedImage) image, "PNG", new File("filename.png"));
+    }
+
+    public void load() throws IOException {
+        image = ImageIO.read(new File("filename.png"));
+        repaint();
+
+    }
+    public void edit(){
+        g2 = (Graphics2D) image.getGraphics();
+        // enable antialiasing
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        // update panel with new paint image
         g2.setPaint(Color.black);
         repaint();
     }

@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -53,6 +54,7 @@ public class Test extends JFrame{
 		JPanel panelLeft = new JPanel(new BorderLayout());
 		JPanel panelDrawing = new JPanel(new BorderLayout());
 		panelDrawing.setBounds(0, 0, 100, 100);
+		//drawingArea = new DrawArea();
 		drawingArea = new DrawArea();
 		drawingArea.setBounds(0,0,200,200);
 
@@ -70,6 +72,36 @@ public class Test extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				drawingArea.clear();
+			}
+		});
+
+		btnSave.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					drawingArea.save();
+				} catch (IOException ex) {
+					throw new RuntimeException(ex);
+				}
+			}
+		});
+
+		btnLoad.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					drawingArea.load();
+				} catch (IOException ex) {
+					throw new RuntimeException(ex);
+				}
+			}
+		});
+		btnEdit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+					drawingArea.edit();
+
 			}
 		});
 
