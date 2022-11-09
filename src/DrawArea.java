@@ -53,7 +53,7 @@ public class DrawArea extends JComponent {
     protected void paintComponent(Graphics g) {
         if (image == null) {
             // image to draw null ==> we create
-            image = createImage(getSize().width, getSize().height);
+            image = createImage(300, 300);
             g2 = (Graphics2D) image.getGraphics();
             // enable antialiasing
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -68,10 +68,11 @@ public class DrawArea extends JComponent {
     public void clear() {
         g2.setPaint(Color.white);
         // draw white on entire draw area to clear
-        g2.fillRect(0, 0, getSize().width, getSize().height);
+        g2.fillRect(0, 0, 300, 300);
         g2.setPaint(Color.black);
         repaint();
     }
+
 
 
 }
