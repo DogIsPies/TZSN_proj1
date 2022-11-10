@@ -1,16 +1,8 @@
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 
-public class Test extends JFrame{
+public class Test{
 
 	MojKomponent komponent;
 	Siec siec;
@@ -42,8 +34,7 @@ public class Test extends JFrame{
 		
 	}
 	public Test(String string) {
-		super(string);
-		new UI();
+		new UI(string);
 
 
 		/*

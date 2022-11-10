@@ -9,7 +9,8 @@ import java.io.IOException;
 
 
 public class UI extends JFrame {
-        public UI() {
+        public UI(String string) {
+            super(string);
             initialization();
 
 
@@ -91,10 +92,10 @@ public class UI extends JFrame {
             setVisible(true);
     }
     private void initialization(){
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
-        Toolkit kit=Toolkit.getDefaultToolkit();
-        Dimension d=kit.getScreenSize();
-        setBounds(d.width/4,d.height/4,d.width/2,d.height/2);
+            setDefaultCloseOperation(EXIT_ON_CLOSE);
+            setLayout(new BorderLayout());
+            Toolkit kit=Toolkit.getDefaultToolkit();
+            Dimension d=kit.getScreenSize();
+            setBounds(d.width/4,d.height/4,d.width/2,d.height/2);
     }
 }
