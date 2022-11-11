@@ -8,8 +8,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.BitSet;
+import java.util.Arrays;
 import java.util.Objects;
 
 import javax.imageio.ImageIO;
@@ -32,6 +31,9 @@ public class DrawArea extends JComponent {
     private int currentX, currentY, oldX, oldY;
     private int slices = 8, count0, count1, count2;
     private final float windowSize = 300f;
+    float[][][] array0 = new float[100][][];
+    float[][][] array1 = new float[100][][];
+    float[][][] array2 = new float[100][][];
 
     private boolean showSlices = true;
 
@@ -99,7 +101,6 @@ public class DrawArea extends JComponent {
 
     }
 
-    // now we create exposed methods
     public void clear() {
         image = new BufferedImage((int) windowSize, (int) windowSize, BufferedImage.TYPE_4BYTE_ABGR);
         g2 = (Graphics2D) image.getGraphics();
@@ -116,13 +117,19 @@ public class DrawArea extends JComponent {
         switch (letter){
             case 0 -> {
                 ImageIO.write((RenderedImage) image, "PNG", new File("./letters/0/" + count0++ + ".png"));
-                createArray(image);
+                System.out.println(Arrays.deepToString(getArray(image)));
+                array0[count0-1] = getArray(image);;
+                System.out.println(Arrays.deepToString(array0));
             }
             case 1 -> {
                 ImageIO.write((RenderedImage) image, "PNG", new File("./letters/1/" + count1++ + ".png"));
+                array1[count2-1] = getArray(image);;
+                System.out.println(Arrays.deepToString(array1));
             }
             case 2 -> {
                 ImageIO.write((RenderedImage) image, "PNG", new File("./letters/2/" + count2++ + ".png"));
+                array2[count2-1] = getArray(image);;
+                System.out.println(Arrays.deepToString(array2));
 
             }
         }
@@ -160,19 +167,16 @@ public class DrawArea extends JComponent {
         this.count1 = Objects.requireNonNull(new File("./letters/1").listFiles()).length;
         this.count2 = Objects.requireNonNull(new File("./letters/2").listFiles()).length;
     }
-    private void createArray(BufferedImage image) throws IOException {
-        int idx = 0;
-        for (int y = 0; y < image.getHeight()-windowSize/slices; y += windowSize/slices) {
-            for (int x = 0; x < image.getWidth()-windowSize/slices; x += windowSize/slices) {
-//                ImageIO.write(image.getSubimage(x, y,  (int) windowSize/slices,
-//                        (int)  windowSize/slices), "png",
-//                        new File("./letters/0/" + idx++ + ".png"));
-               // System.out.println(idx);
-                System.out.println(countPixels(image.getSubimage(x, y,  (int) windowSize/slices,
-                        (int)  windowSize/slices)));
+    private float[][] getArray(BufferedImage image) throws IOException {
+        float[][] pixelCount = new float[slices][slices];
+        for (int y = 0, yi=0; y < image.getHeight()-windowSize/slices; y += windowSize/slices, yi++) {
+            for (int x = 0, xi = 0; x < image.getWidth()-windowSize/slices; x += windowSize/slices, xi++) {
+                pixelCount[yi][xi] = countPixels(image.getSubimage(x, y,  (int) windowSize/slices,
+                        (int)  windowSize/slices));
             }
 
         }
+        return pixelCount;
     }
 private float countPixels(BufferedImage image){
     float Width = (float) image.getWidth();
@@ -192,14 +196,14 @@ private float countPixels(BufferedImage image){
             double b = testPixel.getBlue();
 
             if (r == 255 && g == 255 && b == 255) {
-                countBlack++;
-            } else if (r == 0 && g == 0 && b == 0) {
                 countWhite++;
+            } else if (r == 0 && g == 0 && b == 0) {
+                countBlack++;
             }
 
         }
     }
-    return (countWhite/(Width*Height));
+    return (countBlack/(Width*Height));
 
 }
 
