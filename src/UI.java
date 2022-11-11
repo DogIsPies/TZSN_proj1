@@ -17,9 +17,11 @@ public class UI extends JFrame {
 
             JPanel panelRight = new JPanel();
             JPanel panelLeft = new JPanel(new BorderLayout());
+            JPanel panelLeftSouth = new JPanel(new BorderLayout());
             DrawArea drawingArea = new DrawArea();
             panelLeft.add(drawingArea, BorderLayout.CENTER);
-            panelLeft.add(sliderSlices, BorderLayout.SOUTH);
+            panelLeftSouth.add(sliderSlices, BorderLayout.SOUTH);
+            panelLeft.add(panelLeftSouth, BorderLayout.NORTH);
             setLocationRelativeTo(null);
 
             JButton btnTeach = new JButton("Teach");
@@ -85,7 +87,7 @@ public class UI extends JFrame {
                 @Override
                 public void stateChanged(ChangeEvent e) {
                     JSlider source = (JSlider) e.getSource();
-                 //   slices = source.getValue();
+                    drawingArea.setSlices(source.getValue());
                     drawingArea.repaint();
 
                     //System.out.println(slices);
