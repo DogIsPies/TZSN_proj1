@@ -13,27 +13,21 @@ public class UI extends JFrame {
             super(string);
             initialization();
 
-
-
             JSlider sliderSlices = new JSlider(JSlider.HORIZONTAL, 8,64, 8);
 
             JPanel panelRight = new JPanel();
             JPanel panelLeft = new JPanel(new BorderLayout());
-            JPanel panelDrawing = new JPanel(new BorderLayout());
-            panelDrawing.setBounds(0, 0, 100, 100);
             DrawArea drawingArea = new DrawArea();
-            drawingArea.setBounds(0,0,200,200);
-
-            panelDrawing.setBorder(new EmptyBorder(100, 100, 100, 100));
-            panelDrawing.add(drawingArea, BorderLayout.CENTER);
-            panelLeft.add(panelDrawing, BorderLayout.CENTER);
+            panelLeft.add(drawingArea, BorderLayout.CENTER);
             panelLeft.add(sliderSlices, BorderLayout.SOUTH);
+            setLocationRelativeTo(null);
 
             JButton btnTeach = new JButton("Teach");
             JButton btnSave = new JButton("Save");
             JButton btnEdit = new JButton("Edit");
             JButton btnLoad = new JButton("Load");
             JButton btnClear = new JButton("Clear");
+            JButton btnShowLines = new JButton("Show Lines");
             btnClear.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -71,6 +65,13 @@ public class UI extends JFrame {
                 }
             });
 
+            btnShowLines.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    drawingArea.showLines();
+                }
+            });
+
             add(panelRight, BorderLayout.EAST);
             add(panelLeft, BorderLayout.CENTER);
             panelRight.setLayout(new BoxLayout(panelRight, BoxLayout.LINE_AXIS));
@@ -79,6 +80,7 @@ public class UI extends JFrame {
             panelRight.add(btnEdit);
             panelRight.add(btnSave);
             panelRight.add(btnClear);
+            panelLeft.add(btnShowLines, BorderLayout.SOUTH);
             sliderSlices.addChangeListener(new ChangeListener() {
                 @Override
                 public void stateChanged(ChangeEvent e) {
