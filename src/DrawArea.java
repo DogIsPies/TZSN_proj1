@@ -7,6 +7,8 @@ import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Objects;
 
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
@@ -26,12 +28,13 @@ public class DrawArea extends JComponent {
     private Graphics2D g2_lines;
     // Mouse coordinates
     private int currentX, currentY, oldX, oldY;
-    private int slices = 8;
+    private int slices = 8, count0, count1, count2;
     private final float windowSize = 300f;
 
     private boolean showSlices = true;
 
     public DrawArea() {
+        readData();
         setDoubleBuffered(false);
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
@@ -109,8 +112,21 @@ public class DrawArea extends JComponent {
         repaint();
     }
 
-    public void save() throws IOException {
-        ImageIO.write((RenderedImage) image, "PNG", new File("filename.png"));
+    public void save(int letter) throws IOException {
+        switch (letter){
+            case 0 -> {
+                ImageIO.write((RenderedImage) image, "PNG", new File("./letters/0/" + count0 + ".png"));
+                count0++;
+            }
+            case 1 -> {
+                ImageIO.write((RenderedImage) image, "PNG", new File("./letters/1/" + count1 + ".png"));
+                count1++;
+            }
+            case 2 -> {
+                ImageIO.write((RenderedImage) image, "PNG", new File("./letters/2/" + count2 + ".png"));
+                count2++;
+            }
+        }
     }
 
     public void load() throws IOException {
@@ -140,6 +156,11 @@ public class DrawArea extends JComponent {
         repaint();
     }
 
+    private void readData(){
+        this.count0 = Objects.requireNonNull(new File("./letters/0").listFiles()).length;
+        this.count1 = Objects.requireNonNull(new File("./letters/1").listFiles()).length;
+        this.count2 = Objects.requireNonNull(new File("./letters/2").listFiles()).length;
+    }
 
 
 }

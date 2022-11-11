@@ -16,6 +16,9 @@ public class UI extends JFrame {
             JSlider sliderSlices = new JSlider(JSlider.HORIZONTAL, 8,64, 8);
 
             JPanel panelRight = new JPanel();
+            JPanel panelRightSaveBar = new JPanel();
+            JPanel panelRightDrawing = new JPanel();
+            panelRightSaveBar.setLayout(new BoxLayout(panelRightSaveBar, BoxLayout.X_AXIS));
             JPanel panelLeft = new JPanel(new BorderLayout());
             JPanel panelLeftSouth = new JPanel(new BorderLayout());
             DrawArea drawingArea = new DrawArea();
@@ -25,7 +28,9 @@ public class UI extends JFrame {
             setLocationRelativeTo(null);
 
             JButton btnTeach = new JButton("Teach");
-            JButton btnSave = new JButton("Save");
+            JButton btnSave0 = new JButton("T");
+            JButton btnSave1 = new JButton("I");
+            JButton btnSave2 = new JButton("P");
             JButton btnEdit = new JButton("Edit");
             JButton btnLoad = new JButton("Load");
             JButton btnClear = new JButton("Clear");
@@ -37,11 +42,31 @@ public class UI extends JFrame {
                 }
             });
 
-            btnSave.addActionListener(new ActionListener() {
+            btnSave0.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        drawingArea.save();
+                        drawingArea.save(0);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            });
+            btnSave1.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        drawingArea.save(1);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            });
+            btnSave2.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        drawingArea.save(2);
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
@@ -77,11 +102,15 @@ public class UI extends JFrame {
             add(panelRight, BorderLayout.EAST);
             add(panelLeft, BorderLayout.CENTER);
             panelRight.setLayout(new BoxLayout(panelRight, BoxLayout.LINE_AXIS));
-            panelRight.add(btnTeach);
-            panelRight.add(btnLoad);
-            panelRight.add(btnEdit);
-            panelRight.add(btnSave);
-            panelRight.add(btnClear);
+            panelRightDrawing.add(btnTeach);
+            panelRightDrawing.add(btnLoad);
+            panelRightDrawing.add(btnEdit);
+            panelRightDrawing.add(btnClear);
+            panelRight.add(panelRightSaveBar);
+            panelRight.add(panelRightDrawing);
+            panelRightSaveBar.add(btnSave0);
+            panelRightSaveBar.add(btnSave1);
+            panelRightSaveBar.add(btnSave2);
             panelLeft.add(btnShowLines, BorderLayout.SOUTH);
             sliderSlices.addChangeListener(new ChangeListener() {
                 @Override
