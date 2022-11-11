@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.color.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -8,6 +9,7 @@ import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.BitSet;
 import java.util.Objects;
 
 import javax.imageio.ImageIO;
@@ -67,7 +69,7 @@ public class DrawArea extends JComponent {
     protected void paintComponent(Graphics g) {
         if (image == null) {
             // image to draw null ==> we create
-            image = new BufferedImage((int) windowSize, (int) windowSize, BufferedImage.TYPE_INT_ARGB);
+            image = new BufferedImage((int) windowSize, (int) windowSize, BufferedImage.TYPE_BYTE_GRAY);
             imageLines = new BufferedImage((int) windowSize, (int) windowSize, BufferedImage.TYPE_INT_ARGB);
             g2 = (Graphics2D) image.getGraphics();
             g2_lines = (Graphics2D) imageLines.getGraphics();
@@ -88,8 +90,6 @@ public class DrawArea extends JComponent {
                 Line2D lineY = new Line2D.Float(0,i*(windowSize/slices),  getWidth(),i*(windowSize/slices));
                 g2_lines.draw(lineX);
                 g2_lines.draw(lineY);
-//                g2_lines.drawLine(i*(windowSize/slices),0, i*(windowSize/slices), getHeight());
-//                g2_lines.drawLine(0,i*(windowSize/slices),  getWidth(),i*(windowSize/slices));
                 g.drawImage(image, (getWidth()-(int) windowSize)/2, (getHeight()-(int) windowSize)/2, null);
                 g.drawImage(imageLines, (getWidth()-(int) windowSize)/2, (getHeight()-(int) windowSize)/2, null);
             }
@@ -115,16 +115,15 @@ public class DrawArea extends JComponent {
     public void save(int letter) throws IOException {
         switch (letter){
             case 0 -> {
-                ImageIO.write((RenderedImage) image, "PNG", new File("./letters/0/" + count0 + ".png"));
-                count0++;
+                ImageIO.write((RenderedImage) image, "PNG", new File("./letters/0/" + count0++ + ".png"));
+                createArray(image);
             }
             case 1 -> {
-                ImageIO.write((RenderedImage) image, "PNG", new File("./letters/1/" + count1 + ".png"));
-                count1++;
+                ImageIO.write((RenderedImage) image, "PNG", new File("./letters/1/" + count1++ + ".png"));
             }
             case 2 -> {
-                ImageIO.write((RenderedImage) image, "PNG", new File("./letters/2/" + count2 + ".png"));
-                count2++;
+                ImageIO.write((RenderedImage) image, "PNG", new File("./letters/2/" + count2++ + ".png"));
+
             }
         }
     }
@@ -161,6 +160,48 @@ public class DrawArea extends JComponent {
         this.count1 = Objects.requireNonNull(new File("./letters/1").listFiles()).length;
         this.count2 = Objects.requireNonNull(new File("./letters/2").listFiles()).length;
     }
+    private void createArray(BufferedImage image) throws IOException {
+        int idx = 0;
+        for (int y = 0; y < image.getHeight()-windowSize/slices; y += windowSize/slices) {
+            for (int x = 0; x < image.getWidth()-windowSize/slices; x += windowSize/slices) {
+//                ImageIO.write(image.getSubimage(x, y,  (int) windowSize/slices,
+//                        (int)  windowSize/slices), "png",
+//                        new File("./letters/0/" + idx++ + ".png"));
+               // System.out.println(idx);
+                System.out.println(countPixels(image.getSubimage(x, y,  (int) windowSize/slices,
+                        (int)  windowSize/slices)));
+            }
+
+        }
+    }
+private float countPixels(BufferedImage image){
+    float Width = (float) image.getWidth();
+    float Height = (float) image.getHeight();
+
+    int countBlack = 0;
+    int countWhite = 0;
+    Color testPixel;
+
+    for (int x = 0; x <= Width - 1; x++) {
+        int xi = x;
+        for (int y = 0; y <= Height - 1; y++) {
+            int yi = y;
+            testPixel = new Color(image.getRGB(xi, yi));
+            double r = testPixel.getRed();
+            double g = testPixel.getGreen();
+            double b = testPixel.getBlue();
+
+            if (r == 255 && g == 255 && b == 255) {
+                countBlack++;
+            } else if (r == 0 && g == 0 && b == 0) {
+                countWhite++;
+            }
+
+        }
+    }
+    return (countWhite/(Width*Height));
+
+}
 
 
 }
