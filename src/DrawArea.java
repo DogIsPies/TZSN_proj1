@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.awt.color.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -8,7 +7,9 @@ import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 import javax.imageio.ImageIO;
@@ -31,9 +32,9 @@ public class DrawArea extends JComponent {
     private int currentX, currentY, oldX, oldY;
     private int slices = 8, count0, count1, count2;
     private final float windowSize = 300f;
-    float[][][] array0 = new float[100][][];
-    float[][][] array1 = new float[100][][];
-    float[][][] array2 = new float[100][][];
+    List<float[][]> array0 = new ArrayList<float[][]>();
+    List<float[][]> array1 = new ArrayList<float[][]>();
+    List<float[][]> array2 = new ArrayList<float[][]>();
 
     private boolean showSlices = true;
 
@@ -116,20 +117,16 @@ public class DrawArea extends JComponent {
     public void save(int letter) throws IOException {
         switch (letter){
             case 0 -> {
-                ImageIO.write((RenderedImage) image, "PNG", new File("./letters/0/" + count0++ + ".png"));
-                System.out.println(Arrays.deepToString(getArray(image)));
-                array0[count0-1] = getArray(image);;
-                System.out.println(Arrays.deepToString(array0));
+                ImageIO.write((RenderedImage) image, "PNG", new File("./letters/0/" + array0.size() + ".png"));
+                array0.add(getArray(image));
             }
             case 1 -> {
-                ImageIO.write((RenderedImage) image, "PNG", new File("./letters/1/" + count1++ + ".png"));
-                array1[count2-1] = getArray(image);;
-                System.out.println(Arrays.deepToString(array1));
+                ImageIO.write((RenderedImage) image, "PNG", new File("./letters/1/" + array1.size() + ".png"));
+                array1.add(getArray(image));
             }
             case 2 -> {
-                ImageIO.write((RenderedImage) image, "PNG", new File("./letters/2/" + count2++ + ".png"));
-                array2[count2-1] = getArray(image);;
-                System.out.println(Arrays.deepToString(array2));
+                ImageIO.write((RenderedImage) image, "PNG", new File("./letters/2/" + array2.size() + ".png"));
+                array2.add(getArray(image));
 
             }
         }
