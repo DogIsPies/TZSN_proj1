@@ -8,7 +8,6 @@ import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -117,15 +116,21 @@ public class DrawArea extends JComponent {
     public void save(int letter) throws IOException {
         switch (letter){
             case 0 -> {
-                ImageIO.write((RenderedImage) image, "PNG", new File("./letters/0/" + array0.size() + ".png"));
+                ImageIO.write((RenderedImage) image,
+                        "PNG",
+                        new File("./letters/0/" + array0.size() + ".png"));
                 array0.add(getArray(image));
             }
             case 1 -> {
-                ImageIO.write((RenderedImage) image, "PNG", new File("./letters/1/" + array1.size() + ".png"));
+                ImageIO.write((RenderedImage) image,
+                        "PNG",
+                        new File("./letters/1/" + array1.size() + ".png"));
                 array1.add(getArray(image));
             }
             case 2 -> {
-                ImageIO.write((RenderedImage) image, "PNG", new File("./letters/2/" + array2.size() + ".png"));
+                ImageIO.write((RenderedImage) image,
+                        "PNG",
+                        new File("./letters/2/" + array2.size() + ".png"));
                 array2.add(getArray(image));
 
             }

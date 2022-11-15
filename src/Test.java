@@ -46,10 +46,9 @@ public class Test{
 		
 		 //3 warstwy
 		
-		int [] tab=new int [3];
-		tab[0]=25; tab[1]=5; tab[2]=1;
-		siec=new Siec(2,3,tab);
-		
+//		int [] tab=new int [3];
+//		siec=new Siec(2,3,tab);
+//
 		/*
 		 //2 warstwy
 		int [] tab=new int [2];

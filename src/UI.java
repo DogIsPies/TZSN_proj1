@@ -12,7 +12,7 @@ public class UI extends JFrame {
             super(string);
             initialization();
 
-            JSlider sliderSlices = new JSlider(JSlider.HORIZONTAL, 8,64, 8);
+            JSlider sliderSlices = new JSlider(JSlider.HORIZONTAL, 8,16, 8);
 
             JPanel panelRight = new JPanel();
             JPanel panelRightSaveBar = new JPanel();
