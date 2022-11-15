@@ -7,6 +7,8 @@ import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,6 +41,7 @@ public class DrawArea extends JComponent {
     private boolean showSlices = true;
 
     public DrawArea() {
+        checkFolders();
         readData();
         setDoubleBuffered(false);
         addMouseListener(new MouseAdapter() {
@@ -132,6 +135,15 @@ public class DrawArea extends JComponent {
         }
     }
 
+    private void checkFolders(){
+        try {
+            Files.createDirectories(Paths.get("./letters/0"));
+            Files.createDirectories(Paths.get("./letters/1"));
+            Files.createDirectories(Paths.get("./letters/2"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public void load() throws IOException {
         image = ImageIO.read(new File("filename.png"));
         repaint();
