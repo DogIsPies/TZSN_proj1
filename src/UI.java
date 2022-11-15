@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.Arrays;
 
 
 public class UI extends JFrame {
@@ -12,7 +13,7 @@ public class UI extends JFrame {
             super(string);
             initialization();
 
-            JSlider sliderSlices = new JSlider(JSlider.HORIZONTAL, 8,64, 8);
+            JSlider sliderSlices = new JSlider(JSlider.HORIZONTAL, 8,16, 8);
 
             JPanel panelRight = new JPanel();
             JPanel panelRightSaveBar = new JPanel();
@@ -40,7 +41,19 @@ public class UI extends JFrame {
                     drawingArea.clear();
                 }
             });
-
+            btnTeach.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    int[] tab = new int[]{};
+                    Siec siec = new Siec(64,3, drawingArea.array0.get(0));
+                    int[] ints = drawingArea.array0.get(1);
+                    double[] doubles = new double[ints.length];
+                    for(int i=0; i<ints.length; i++) {
+                        doubles[i] = ints[i];
+                    }
+                    System.out.println(Arrays.toString(siec.oblicz_wyjscie(doubles)));
+                }
+            });
             btnSave0.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
