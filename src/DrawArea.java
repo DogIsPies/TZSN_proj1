@@ -7,19 +7,16 @@ import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 
-/**
- * Component for drawing !
- *
- * @author sylsau
- *
- */
 public class DrawArea extends JComponent {
 
     // Image in which we're going to draw
@@ -29,16 +26,17 @@ public class DrawArea extends JComponent {
     private Graphics2D g2_lines;
     // Mouse coordinates
     private int currentX, currentY, oldX, oldY;
-    private int slices = 8, count0, count1, count2;
+    private int slices = 8;
     private final float windowSize = 300f;
-    List<float[][]> array0 = new ArrayList<float[][]>();
-    List<float[][]> array1 = new ArrayList<float[][]>();
-    List<float[][]> array2 = new ArrayList<float[][]>();
+    List<int[]> array0 = new ArrayList<int[]>();
+    List<int[]> array1 = new ArrayList<int[]>();
+    List<int[]> array2 = new ArrayList<int[]>();
 
     private boolean showSlices = true;
 
     public DrawArea() {
-        readData();
+        checkFolders();
+       // readData();
         setDoubleBuffered(false);
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
@@ -161,26 +159,38 @@ public class DrawArea extends JComponent {
 
     public void showLines(){
         showSlices = !showSlices;
-        repaint();
     }
 
     private void readData(){
-        this.count0 = Objects.requireNonNull(new File("./letters/0").listFiles()).length;
-        this.count1 = Objects.requireNonNull(new File("./letters/1").listFiles()).length;
-        this.count2 = Objects.requireNonNull(new File("./letters/2").listFiles()).length;
+
+//        this.count0 = Objects.requireNonNull(new File("./letters/0").listFiles()).length;
+//        this.count1 = Objects.requireNonNull(new File("./letters/1").listFiles()).length;
+//        this.count2 = Objects.requireNonNull(new File("./letters/2").listFiles()).length;
     }
-    private float[][] getArray(BufferedImage image) throws IOException {
-        float[][] pixelCount = new float[slices][slices];
+
+    private void checkFolders(){
+        try {
+            Files.createDirectories(Paths.get("./letters/0"));
+            Files.createDirectories(Paths.get("./letters/1"));
+            Files.createDirectories(Paths.get("./letters/2"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private int[] getArray(BufferedImage image) throws IOException {
+        int[] pixelCount = new int[slices*slices];
+        int counter = 0;
         for (int y = 0, yi=0; y < image.getHeight()-windowSize/slices; y += windowSize/slices, yi++) {
             for (int x = 0, xi = 0; x < image.getWidth()-windowSize/slices; x += windowSize/slices, xi++) {
-                pixelCount[yi][xi] = countPixels(image.getSubimage(x, y,  (int) windowSize/slices,
+                pixelCount[counter++] = countPixels(image.getSubimage(x, y,  (int) windowSize/slices,
                         (int)  windowSize/slices));
             }
 
         }
+        System.out.println(Arrays.toString(pixelCount));
         return pixelCount;
     }
-private float countPixels(BufferedImage image){
+private int countPixels(BufferedImage image){
     float Width = (float) image.getWidth();
     float Height = (float) image.getHeight();
 
@@ -205,7 +215,7 @@ private float countPixels(BufferedImage image){
 
         }
     }
-    return (countBlack/(Width*Height));
+    return (countBlack/(Width*Height)) > 0.20 ? 1:0;
 
 }
 

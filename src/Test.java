@@ -5,7 +5,7 @@ import javax.swing.*;
 public class Test{
 
 	MojKomponent komponent;
-	Siec siec;
+	public Siec siec;
 	Integer slices = 8;
 	DrawArea drawingArea;
 

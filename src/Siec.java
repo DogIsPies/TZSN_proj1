@@ -13,7 +13,7 @@ public class Siec {
 		for(int i=0;i<liczba_warstw;i++)
 			warstwy[i]=new Warstwa((i==0)?liczba_wejsc:lnww[i-1],lnww[i]);
 	}
-	double [] oblicz_wyjscie(double [] wejscia){
+	double [] oblicz_wyjscie(double[] wejscia){
 		double [] wyjscie=null;
 		for(int i=0;i<liczba_warstw;i++)
 			wejscia = wyjscie = warstwy[i].oblicz_wyjscie(wejscia);
