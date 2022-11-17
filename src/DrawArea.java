@@ -25,6 +25,8 @@ public class DrawArea extends JComponent {
 
     // Image in which we're going to draw
     private BufferedImage image, imageLines, imageCombined;
+
+    private Color drawColor = Color.BLACK;
     // Graphics2D object ==> used to draw on
     private Graphics2D g2;
     private Graphics2D g2_lines;
@@ -50,6 +52,7 @@ public class DrawArea extends JComponent {
                 // save coord x,y when mouse is pressed
                 oldX = e.getX();
                 oldY = e.getY();
+                g2.setPaint(drawColor);
             }
         });
 
@@ -61,6 +64,7 @@ public class DrawArea extends JComponent {
 
                 if (image != null) {
                     // draw line if g2 context not null
+
                     g2.setStroke(new BasicStroke(20f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
                     g2.drawLine(oldX-(getWidth()-(int) windowSize)/2, oldY-(getHeight()-(int) windowSize)/2, currentX-(getWidth()-(int) windowSize)/2, currentY-(getHeight()-(int) windowSize)/2);
                     // refresh draw area to repaint
@@ -238,5 +242,7 @@ private double countPixels(BufferedImage image){
 
 }
 
-
+    public void setDrawColor(Color drawColor) {
+        this.drawColor = drawColor;
+    }
 }

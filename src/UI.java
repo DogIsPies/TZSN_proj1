@@ -50,6 +50,10 @@ public class UI extends JFrame {
             JButton btnLoad = new JButton("Load");
             JButton btnClear = new JButton("Clear");
             JButton btnShowLines = new JButton("Show Lines");
+            JButton btnColorBlack = new JButton();
+            JButton btnColorWhite = new JButton();
+            btnColorWhite.setBackground(Color.WHITE);
+            btnColorBlack.setBackground(Color.BLACK);
             btnClear.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -75,6 +79,19 @@ public class UI extends JFrame {
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
+                }
+            });
+            btnColorBlack.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    drawingArea.setDrawColor(Color.BLACK);
+                }
+            });
+
+            btnColorWhite.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    drawingArea.setDrawColor(Color.WHITE);
                 }
             });
             btnSave2.addActionListener(new ActionListener() {
@@ -126,6 +143,8 @@ public class UI extends JFrame {
             panelRightSaveBar.add(btnSave0);
             panelRightSaveBar.add(btnSave1);
             panelRightSaveBar.add(btnSave2);
+            panelRightDrawing.add(btnColorBlack);
+            panelRightDrawing.add(btnColorWhite);
             panelLeft.add(btnShowLines, BorderLayout.SOUTH);
             sliderSlices.addChangeListener(new ChangeListener() {
                 @Override
