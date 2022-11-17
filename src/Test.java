@@ -1,11 +1,12 @@
 import java.awt.*;
+import java.util.Arrays;
 import javax.swing.*;
 
 
 public class Test{
 
 	MojKomponent komponent;
-	public Siec siec;
+	Siec siec;
 	Integer slices = 8;
 	DrawArea drawingArea;
 
@@ -17,9 +18,10 @@ public class Test{
 			double [] wynik;
 			for(int x=0;x<getWidth();x++)
 				for(int y=0;y<getHeight();y++){
-					wej[0]=2.0*(x-getWidth()/2)/getWidth();
-					wej[1]=2.0*(y-getHeight()/2)/getHeight();
-					wynik=siec.oblicz_wyjscie(wej);
+//					wej[0]=2.0*(x-getWidth()/2)/getWidth();
+//					wej[1]=2.0*(y-getHeight()/2)/getHeight();
+					wynik=siec.oblicz_wyjscie(drawingArea.array0t);
+
 					
 					/*
 					g.setColor(new Color((wynik[0]<0.5)?0:(int)Math.round((wynik[0]-0.5)*510),
@@ -47,8 +49,9 @@ public class Test{
 		 //3 warstwy
 		
 //		int [] tab=new int [3];
-//		siec=new Siec(2,3,tab);
-//
+//		tab[0]=25; tab[1]=5; tab[2]=1;
+//		siec=new Siec(slices,3,drawingArea.array0t);
+		
 		/*
 		 //2 warstwy
 		int [] tab=new int [2];

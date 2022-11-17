@@ -7,8 +7,6 @@ import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,14 +32,17 @@ public class DrawArea extends JComponent {
     private int currentX, currentY, oldX, oldY;
     private int slices = 8, count0, count1, count2;
     private final float windowSize = 300f;
-    List<float[][]> array0 = new ArrayList<float[][]>();
-    List<float[][]> array1 = new ArrayList<float[][]>();
-    List<float[][]> array2 = new ArrayList<float[][]>();
+    List<int[][]> array0 = new ArrayList<int[][]>();
+    List<int[][]> array1 = new ArrayList<int[][]>();
+    List<int[][]> array2 = new ArrayList<int[][]>();
+
+    double[] array0t = new double[slices*slices];
+    double[] array1t = new double[slices*slices];
+    double[] array2t = new double[slices*slices];
 
     private boolean showSlices = true;
 
     public DrawArea() {
-        checkFolders();
         readData();
         setDoubleBuffered(false);
         addMouseListener(new MouseAdapter() {
@@ -118,32 +119,40 @@ public class DrawArea extends JComponent {
     }
 
     public void save(int letter) throws IOException {
+
         switch (letter){
             case 0 -> {
-                ImageIO.write((RenderedImage) image, "PNG", new File("./letters/0/" + array0.size() + ".png"));
-                array0.add(getArray(image));
+                ImageIO.write((RenderedImage) image, "PNG", new File("./letters/0/" + count0++ + ".png"));
+                array0t = (getArrayTest(image));
+                System.out.println(Arrays.toString(getArrayTest(image)));
             }
             case 1 -> {
-                ImageIO.write((RenderedImage) image, "PNG", new File("./letters/1/" + array1.size() + ".png"));
-                array1.add(getArray(image));
+                ImageIO.write((RenderedImage) image, "PNG", new File("./letters/1/" + count1++ + ".png"));
+                array1t = (getArrayTest(image));
             }
             case 2 -> {
-                ImageIO.write((RenderedImage) image, "PNG", new File("./letters/2/" + array2.size() + ".png"));
-                array2.add(getArray(image));
+                ImageIO.write((RenderedImage) image, "PNG", new File("./letters/2/" + count2++ + ".png"));
+                array2t = (getArrayTest(image));
 
             }
         }
     }
+    public List<int[][]> getArray(int letter) throws IOException {
+        switch (letter){
+            case 0 -> {
+                return array0;
+            }
+            case 1 -> {
+                return array1;
+            }
+            case 2 -> {
+                return array2;
 
-    private void checkFolders(){
-        try {
-            Files.createDirectories(Paths.get("./letters/0"));
-            Files.createDirectories(Paths.get("./letters/1"));
-            Files.createDirectories(Paths.get("./letters/2"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            }
         }
+        return null;
     }
+
     public void load() throws IOException {
         image = ImageIO.read(new File("filename.png"));
         repaint();
@@ -176,18 +185,31 @@ public class DrawArea extends JComponent {
         this.count1 = Objects.requireNonNull(new File("./letters/1").listFiles()).length;
         this.count2 = Objects.requireNonNull(new File("./letters/2").listFiles()).length;
     }
-    private float[][] getArray(BufferedImage image) throws IOException {
-        float[][] pixelCount = new float[slices][slices];
+//    private int[][] getArray(BufferedImage image) throws IOException {
+//        int[][] pixelCount = new int[slices][slices];
+//        for (int y = 0, yi=0; y < image.getHeight()-windowSize/slices; y += windowSize/slices, yi++) {
+//            for (int x = 0, xi = 0; x < image.getWidth()-windowSize/slices; x += windowSize/slices, xi++) {
+//                pixelCount[yi][xi] = countPixels(image.getSubimage(x, y,  (int) windowSize/slices,
+//                        (int)  windowSize/slices));
+//            }
+//
+//        }
+//        return pixelCount;
+//    }
+    private double[] getArrayTest(BufferedImage image) throws IOException {
+        int licznik = 0;
+        double[] pixelCount = new double[slices*slices];
         for (int y = 0, yi=0; y < image.getHeight()-windowSize/slices; y += windowSize/slices, yi++) {
             for (int x = 0, xi = 0; x < image.getWidth()-windowSize/slices; x += windowSize/slices, xi++) {
-                pixelCount[yi][xi] = countPixels(image.getSubimage(x, y,  (int) windowSize/slices,
+                pixelCount[licznik++] = countPixels(image.getSubimage(x, y,  (int) windowSize/slices,
                         (int)  windowSize/slices));
             }
 
         }
         return pixelCount;
     }
-private float countPixels(BufferedImage image){
+
+private double countPixels(BufferedImage image){
     float Width = (float) image.getWidth();
     float Height = (float) image.getHeight();
 

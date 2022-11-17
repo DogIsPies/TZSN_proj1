@@ -9,11 +9,12 @@ import java.util.Arrays;
 
 
 public class UI extends JFrame {
+    Siec siec;
         public UI(String string) {
             super(string);
             initialization();
 
-            JSlider sliderSlices = new JSlider(JSlider.HORIZONTAL, 8,16, 8);
+            JSlider sliderSlices = new JSlider(JSlider.HORIZONTAL, 8,64, 8);
 
             JPanel panelRight = new JPanel();
             JPanel panelRightSaveBar = new JPanel();
@@ -26,8 +27,22 @@ public class UI extends JFrame {
             panelLeftSouth.add(sliderSlices, BorderLayout.SOUTH);
             panelLeft.add(panelLeftSouth, BorderLayout.NORTH);
             setLocationRelativeTo(null);
-
+            int [] tab=new int [3];
+            tab[0]=30; tab[1]=10; tab[2]=3;
+            siec=new Siec(64,3, tab);
             JButton btnTeach = new JButton("Teach");
+            btnTeach.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    double[] wynik;
+
+
+
+                    System.out.println("wow");
+                    wynik=siec.oblicz_wyjscie(drawingArea.array0t);
+                    System.out.println(Arrays.toString(wynik));
+                }
+            });
             JButton btnSave0 = new JButton("T");
             JButton btnSave1 = new JButton("I");
             JButton btnSave2 = new JButton("P");
@@ -41,19 +56,7 @@ public class UI extends JFrame {
                     drawingArea.clear();
                 }
             });
-            btnTeach.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    int[] tab = new int[]{};
-                    Siec siec = new Siec(64,3, drawingArea.array0.get(0));
-                    int[] ints = drawingArea.array0.get(1);
-                    double[] doubles = new double[ints.length];
-                    for(int i=0; i<ints.length; i++) {
-                        doubles[i] = ints[i];
-                    }
-                    System.out.println(Arrays.toString(siec.oblicz_wyjscie(doubles)));
-                }
-            });
+
             btnSave0.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
