@@ -27,20 +27,19 @@ public class UI extends JFrame {
             panelLeftSouth.add(sliderSlices, BorderLayout.SOUTH);
             panelLeft.add(panelLeftSouth, BorderLayout.NORTH);
             setLocationRelativeTo(null);
-            int [] tab=new int [3];
-            tab[0]=30; tab[1]=10; tab[2]=3;
-            siec=new Siec(64,3, tab);
+            int[] tab = new int[]{3};
+
+            siec=new Siec(64,1, tab);
             JButton btnTeach = new JButton("Teach");
             btnTeach.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     double[] wynik;
-
-
-
+                    double[] wzor = new double[]{1.0,0.0,0.0};
                     System.out.println("wow");
                     wynik=siec.oblicz_wyjscie(drawingArea.array0t);
                     System.out.println(Arrays.toString(wynik));
+                    siec.backprop(wynik, wzor);
                 }
             });
             JButton btnSave0 = new JButton("T");
@@ -65,6 +64,7 @@ public class UI extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
+
                         drawingArea.save(0);
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);

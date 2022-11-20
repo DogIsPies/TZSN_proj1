@@ -19,4 +19,12 @@ public class Warstwa {
 			wyjscie[i]=neurony[i].oblicz_wyjscie(wejscia);
 		return wyjscie;
 	}
+	public void oblicz_blad(double[] wzorzec){
+		for(int i=0;i<liczba_neuronow;i++)
+			neurony[i].oblicz_blad(wzorzec[i]);
+	}
+
+	public void oblicz_blad() {
+
+	}
 }
