@@ -1,6 +1,6 @@
 import java.util.Random;
 
-
+//banana
 public class Neuron {
 	public double [] wagi;
 	int liczba_wejsc;
