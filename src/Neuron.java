@@ -1,5 +1,6 @@
 import java.util.Random;
 
+//marco
 
 public class Neuron {
 	public double [] wagi;
